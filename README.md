@@ -1,87 +1,187 @@
-# <p align="center">🚘 BIỂN SỐ ĐẸP — BIENSOVIP.VN 🚘</p>
-### <p align="center">Sàn Giao Dịch & Định Giá Biển Số Xe Đẹp Trực Tuyến Hàng Đầu Việt Nam</p>
 <p align="center">
-  <strong>Thương hiệu Duy Đinh — Biển Số Đẹp Đà Nẵng</strong>
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=D97706,1E293B&height=220&section=header&text=BIEN%20SO%20DEP&fontSize=60&fontColor=ffffff&fontAlignY=42&desc=Nen%20tang%20giao%20dich%20%26%20dinh%20gia%20bien%20so%20xe%20hang%20dau%20Viet%20Nam&descSize=18&descAlignY=62&animation=fadeIn" alt="BienSoDep Banner" />
 </p>
 
 <p align="center">
-  <a href="https://biensovip.com"><img src="https://img.shields.io/badge/Website-Biensovip.com-D97706?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Website" /></a>
-  <a href="https://zalo.me/0815792699"><img src="https://img.shields.io/badge/Hotline%20%2F%20Zalo-0815.792.699-0068FF?style=for-the-badge&logo=zalo&logoColor=white" alt="Zalo" /></a>
-  <a href="mailto:duymc64@gmail.com"><img src="https://img.shields.io/badge/Email-duymc64%40gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" /></a>
+  <a href="https://biensovip.com">
+    <img src="https://img.shields.io/badge/biensovip.com-Live%20Platform-D97706?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Website" />
+  </a>
+  <a href="https://zalo.me/0815792699">
+    <img src="https://img.shields.io/badge/Zalo%20%2F%20Hotline-0815.792.699-0068FF?style=for-the-badge&logo=zalo&logoColor=white" alt="Zalo" />
+  </a>
+  <a href="mailto:duymc64@gmail.com">
+    <img src="https://img.shields.io/badge/Email-duymc64%40gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
+  </a>
 </p>
+
+<br/>
+
+---
+
+## Giới Thiệu Dự Án
+
+**Biensovip.com** là nền tảng thương mại điện tử chuyên biệt đầu tiên tại Việt Nam dành riêng cho thị trường **biển số xe ô tô và xe máy đẹp**. Được phát triển và vận hành bởi tổ chức **BienSoDep**, dưới thương hiệu **Duy Đinh — Biển Số Đẹp Đà Nẵng**, dự án giải quyết một bài toán thực tế: thị trường mua bán biển số xe đẹp tại Việt Nam lâu nay thiếu minh bạch về giá cả và chưa được số hóa đúng nghĩa.
+
+Hệ thống được xây dựng hoàn toàn mới từ đầu qua **5 giai đoạn phát triển** với **57 Use Case đặc tả đầy đủ**, áp dụng kiến trúc phần mềm tiêu chuẩn enterprise (Clean Architecture, ACID database, RBAC, HMAC Webhook) và tích hợp dữ liệu đấu giá thực tế từ **VPA — Công ty Đấu giá Hợp danh Việt Nam**.
+
+---
+
+## Vấn Đề & Giải Pháp
+
+| Vấn đề thị trường | Giải pháp của Biensovip |
+|---|---|
+| Giá biển số thiếu cơ sở khoa học, phụ thuộc cảm tính người bán | **VPA Price Engine**: Định giá thị trường khoa học dựa trên biển cùng tỉnh trùng đuôi số từ kết quả đấu giá VPA thực tế |
+| Không có kênh giao dịch chính thống, an toàn | **Cổng mua bán số hóa** với giữ chỗ tự động 15 phút, thanh toán VietQR/ZaloPay |
+| Khó tra cứu phong thủy, hợp tuổi hợp mệnh | **Trợ lý phong thủy ngũ hành** tích hợp trực tiếp trên từng biển số |
+| Admin quản lý kho biển thủ công, mất thời gian | **Admin Portal đầy đủ** với quản lý kho, duyệt giá VPA, CRM khách hàng |
+| Biển số không có hình ảnh chuẩn pháp lý | **Phôi biển số số hóa** theo đúng tiêu chuẩn đồ họa Bộ Công An |
+
+---
+
+## Hệ Sinh Thái Repositories
+
+Toàn bộ hệ thống được tổ chức thành 4 repository độc lập với vai trò phân tách rõ ràng:
+
+| Repository | Vai trò | Stack chính | Quyền |
+|---|---|---|:---:|
+| [**biensovip-web**](https://github.com/BienSoDep/biensovip-web) | Frontend SPA & Admin Portal | React 19, Vite 8, TanStack Query v5, Framer Motion, Vanilla CSS Design Tokens | Public |
+| [**biensovip-backend**](https://github.com/BienSoDep/biensovip-backend) | Core RESTful API & Background Workers | .NET 8, Clean Architecture, EF Core 8, PostgreSQL 16, SignalR, JWT, HMAC | Private |
+| [**biensodep-infrastructure**](https://github.com/BienSoDep/biensodep-infrastructure) | Master Docs, Contracts & Brand Assets | Markdown, DBML, LaTeX, Python, Excel | Private |
+| [**biensovip-demo-ui**](https://github.com/BienSoDep/biensovip-demo-ui) | Staging Preview & Container Deploy | React 19, Docker Multi-stage, Nginx Alpine, Vercel | Private |
+
+---
+
+## Kiến Trúc Hệ Thống
+
+Backend được thiết kế theo **Clean Architecture** với 4 layer tách biệt hoàn toàn:
+
+```
+Biensovip.Api          ← Web Host: Endpoints, Middleware, Auth
+  └─► Biensovip.Infrastructure  ← EF Core, Repos, Background Workers, External Services
+        └─► Biensovip.Application  ← DTOs, Business Interfaces, Use Case Logic
+              └─► Biensovip.Domain  ← Core Entities, Enums (không phụ thuộc vào bất kỳ layer nào)
+```
+
+Database được thiết kế chuẩn **3NF/ACID** với **55 bảng**, hỗ trợ JSONB và PostgreSQL Trigram Index cho tìm kiếm toàn văn nhanh.
+
+---
+
+## Công Nghệ Nền Tảng
 
 <p align="center">
   <img src="https://img.shields.io/badge/.NET-8.0-512BD4?style=flat-square&logo=dotnet&logoColor=white" />
   <img src="https://img.shields.io/badge/React-19.0-61DAFB?style=flat-square&logo=react&logoColor=black" />
-  <img src="https://img.shields.io/badge/Vite-8.x-646CFF?style=flat-square&logo=vite&logoColor=white" />
   <img src="https://img.shields.io/badge/PostgreSQL-16-4169E1?style=flat-square&logo=postgresql&logoColor=white" />
-  <img src="https://img.shields.io/badge/Icons-Lucide%20React-F6821F?style=flat-square&logo=lucide&logoColor=white" />
+  <img src="https://img.shields.io/badge/Vite-8.x-646CFF?style=flat-square&logo=vite&logoColor=white" />
+  <img src="https://img.shields.io/badge/Docker-Containerized-2496ED?style=flat-square&logo=docker&logoColor=white" />
+  <img src="https://img.shields.io/badge/SignalR-Realtime-512BD4?style=flat-square&logo=dotnet&logoColor=white" />
+  <img src="https://img.shields.io/badge/Caddy-v2%20Reverse%20Proxy-1F88C0?style=flat-square&logo=caddy&logoColor=white" />
   <img src="https://img.shields.io/badge/Architecture-Clean%20Architecture-059669?style=flat-square" />
 </p>
 
 ---
 
-## 🌟 VỀ TỔ CHỨC BIỂN SỐ ĐẸP (BIENSOVIP)
+## Tính Năng Theo Từng Phân Hệ
 
-**Biển Số Đẹp (BienSoDep)** là tổ chức vận hành nền tảng thương mại điện tử chuyên biệt [Biensovip.com](https://biensovip.com) — sàn giao dịch biển số xe đẹp ô tô và xe máy hàng đầu Việt Nam. Được bảo trợ bởi thương hiệu **Duy Đinh (Đà Nẵng)**, tổ chức cung cấp giải pháp toàn diện từ định giá thị trường, tra cứu phong thủy, ký gửi, mua bán và chuyển nhượng định danh biển số theo quy định pháp luật.
+### 1. VPA Market Price Engine (UC49)
 
-### 🎯 Sứ mệnh & Tầm nhìn
-- **Minh bạch hóa thị trường:** Ứng dụng dữ liệu lớn (Big Data) và kết quả đấu giá thực tế từ Công ty Đấu giá Hợp danh Việt Nam (VPA) để đưa ra mức giá thị trường khách quan, khoa học.
-- **Trải nghiệm mua sắm số:** Đưa việc tìm kiếm, tra cứu phong thủy và giao dịch biển số xe lên môi trường số hóa 100%, bảo mật và tự động hóa 24/7.
-- **Tiêu chuẩn pháp lý vững chắc:** Tuân thủ Thông tư 24/2023/TT-BCA và Nghị định 13/2023/NĐ-CP về bảo vệ dữ liệu cá nhân.
+Đây là tính năng cốt lõi và độc đáo nhất của nền tảng. Hệ thống tự động **cào kết quả đấu giá biển số quốc gia** từ cổng VPA và áp dụng **thuật toán định giá chuẩn xác** dựa trên các biển số cùng tỉnh:
 
----
+- **Nguyên tắc đối chiếu:** Chỉ sử dụng các biển số **trùng khớp chính xác dãy số đuôi** (khác chữ đầu series) nhưng **bắt buộc cùng tỉnh thành** và cùng loại phương tiện đã đấu giá thành công (`AuctionPrice > 0`). Ví dụ: với biển `64A-633.33` sẽ tìm kiếm các biển `64K-633.33`, `64H-633.33`... trong tỉnh Đồng Tháp.
+- **Trường hợp 1 (Có mẫu cùng tỉnh):**
+  $$\text{Giá gợi ý} = \text{Trung bình giá trúng các biển cùng tỉnh trùng đuôi} \times \text{Hệ số thị trường (Factor)}$$
+- **Trường hợp 2 (Không có mẫu cùng tỉnh trùng đuôi số):** Fallback trực tiếp bằng:
+  $$\text{Giá gợi ý} = \text{Giá khởi điểm (StartingPrice)} \times \text{Hệ số thị trường (Factor)}$$
+  *(Tuyệt đối không lấy mẫu khác số cùng loại biển tứ quý/ngũ quý ở tỉnh khác hay toàn quốc).*
 
-## 🗂️ HỆ SINH THÁI MÃ NGUỒN (REPOSITORIES)
-
-Toàn bộ hệ sinh thái phần mềm được xây dựng theo kiến trúc phân tách độc lập, khả năng mở rộng cao và kiểm thử nghiêm ngặt:
-
-| Kho lưu trữ | Vai trò trong hệ thống | Công nghệ chính |
-|---|---|---|
-| 🌐 [**biensovip-web**](https://github.com/BienSoDep/biensovip-web) | **Frontend Web Application & Admin Portal**<br>Trải nghiệm khách hàng mua sắm, bói phong thủy, so sánh biển số và toàn bộ cổng quản trị kinh doanh, phê duyệt giá VPA. | React 19, Vite 8, TanStack Query v5, Lucide Icons, Recharts, Framer Motion, Vanilla CSS Tokens |
-| ⚙️ [**biensovip-backend**](https://github.com/BienSoDep/biensovip-backend) | **Core RESTful API & Background Workers**<br>Hệ thống xử lý nghiệp vụ, thuật toán VPA Price Engine, crawler tự động, cổng thanh toán VietQR / ZaloPay, xác thực 2FA. | .NET 8 (C# 12), Clean Architecture, Minimal APIs, EF Core 8, PostgreSQL 16, SignalR |
-| 📚 [**biensodep-infrastructure**](https://github.com/BienSoDep/biensodep-infrastructure) | **Master Specifications & Non-Code Resources**<br>Hồ sơ đặc tả 57 Use Cases qua 5 Giai đoạn, thiết kế 55 bảng CSDL 3NF, hợp đồng pháp lý, tài liệu thương hiệu và DevOps runbook. | Markdown, LaTeX, DBML, Assets, Python Scripts |
-| 📦 [**biensovip-demo-ui**](https://github.com/BienSoDep/biensovip-demo-ui) | **Standalone Preview & Staging Deployment**<br>Gói giao diện xem trước độc lập phục vụ trình diễn, kiểm thử đối tác và triển khai container nhanh. | React 19, Docker Multi-stage, Nginx Alpine, Vercel |
+Mỗi kết quả định giá đều kèm danh sách tối đa **50 phiên đấu giá mẫu cùng tỉnh** thực tế làm căn cứ minh bạch, cùng nhãn ghi chú rõ ràng (**"Cùng tỉnh"** hoặc **"Giá khởi điểm"**) trên bảng quản trị và modal chi tiết.
 
 ---
 
-## 🚀 CÔNG NGHỆ & ĐIỂM NHẤN ĐẶC SẮC
+### 2. Cổng Mua Bán & Giữ Chỗ Tự Động
 
-### 1. 🤖 VPA Market Price Engine (UC49)
-- Thu thập tự động kết quả đấu giá biển số quốc gia theo thời gian thực.
-- Thuật toán phân cấp 3 tầng suy luận giá thị trường dựa trên độ tương đồng:
-  1. **Cấp 1:** Trùng đuôi số thực tế (cùng tỉnh thành, loại xe).
-  2. **Cấp 2:** Cùng loại biển & cùng tỉnh thành theo phân khúc số.
-  3. **Cấp 3:** Cùng loại biển trên toàn quốc (fallback).
-- Minh bạch 100% công thức định giá: $\text{Giá gợi ý} = \text{TB giá trúng} \times \text{Hệ số (Factor)}$ kèm 50 phiên đấu giá mẫu chứng minh.
-
-### 2. 🎨 Trải Nghiệm Giao Diện Đẳng Cấp
-- **100% Lucide Icons:** Toàn bộ biểu tượng chuẩn hóa qua thư viện `lucide-react`, loại bỏ emoji và icon ký tự thô.
-- **Bộ lọc 4 tiêu chí chuẩn hóa:** Đồng bộ xuyên suốt các trang Biển số shop, Biển VPA và Kết quả đấu giá (`Loại biển`, `Loại xe`, `Tỉnh/thành`, `Nổi bật`).
-- **Phôi biển số dập nổi chuẩn BCA:** Mô phỏng đồ họa chính xác tỷ lệ, font chữ, quốc kỳ và biểu tượng theo tiêu chuẩn Bộ Công An.
-
-### 3. 💳 Giữ Chỗ & Thanh Toán Tự Động 24/7
-- Khóa giữ biển tự động trong 15 phút (`HOLDING`).
-- Tích hợp VietQR Napas247 động và ZaloPay Merchant QR, xác thực tức thời qua Webhook có chữ ký bảo mật HMAC-SHA256.
-
-### 4. 🔮 Trợ Lý Phong Thủy Ngũ Hành
-- Thuật toán bói phong thủy theo kinh dịch, số nút may mắn, quẻ biến và tương sinh ngũ hành.
-- Gợi ý biển số hợp tuổi, hợp mệnh cho chủ xe cá nhân và doanh nghiệp.
+- Khách hàng xem biển, nhấn **"Giữ chỗ"** → hệ thống tự động khóa biển trong **15 phút** (trạng thái `HOLDING`)
+- Sinh mã **VietQR Napas247 động** hoặc **ZaloPay Merchant QR** theo thời gian thực
+- Webhook nhận xác nhận thanh toán, xác thực chữ ký **HMAC-SHA256** để chống giả mạo
+- Tự động chuyển trạng thái biển → `SOLD` hoặc giải phóng lại nếu hết thời gian giữ
 
 ---
 
-## 📍 THÔNG TIN LIÊN HỆ & KẾT NỐI
+### 3. Trợ Lý Phong Thủy Ngũ Hành
+
+- Phân tích biển số theo **kinh dịch**, số nút may mắn, quẻ biến và tương sinh ngũ hành
+- Gợi ý biển số **hợp tuổi, hợp mệnh** cho cá nhân (sinh năm, can chi) và doanh nghiệp (ngành nghề)
+- Tích hợp ngay trên trang chi tiết biển số, không cần màn hình riêng
+
+---
+
+### 4. Phôi Biển Số Số Hóa (Chuẩn BCA)
+
+- Mô phỏng đồ họa chính xác **phôi biển số xe** theo tiêu chuẩn Bộ Công An Việt Nam
+- Đúng tỷ lệ, font chữ, bố cục, màu sắc theo từng loại biển (ô tô trắng, xe máy vàng, biển xanh...)
+- Hiển thị quốc kỳ và biểu tượng đúng vị trí theo quy định
+
+---
+
+### 5. Admin Portal Quản Trị Toàn Diện
+
+- **Quản lý kho biển:** Thêm/sửa/xóa biển, gắn nhãn, ẩn hiện, cập nhật giá bán
+- **Duyệt giá VPA:** Xem giá gợi ý từ engine, so sánh với giá đang bán, phê duyệt hoặc điều chỉnh
+- **Phân tích thị trường:** Biểu đồ biến động giá theo tỉnh thành, loại biển, thời gian
+- **CRM Khách hàng:** Quản lý yêu cầu tư vấn, lịch sử liên hệ, trạng thái giữ chỗ
+- **Quản lý Crawler VPA:** Kích hoạt cào thủ công, lịch sử các đợt crawl, xử lý lỗi
+
+---
+
+### 6. Bộ Lọc & Tìm Kiếm Nâng Cao
+
+Bộ lọc **4 tiêu chí chuẩn hóa** được đồng bộ xuyên suốt 3 trang chính:
+
+- **Loại biển:** Ô tô / Xe máy / Biển tỉnh / Biển thành phố...
+- **Loại xe:** Phân loại theo nhóm phương tiện
+- **Tỉnh / Thành phố:** 63 tỉnh thành Việt Nam
+- **Nổi bật:** Lọc nhanh biển VIP, biển ngũ quý, biển siêu đẹp...
+
+Tìm kiếm hỗ trợ **PostgreSQL Trigram Index** giúp tra cứu biển số theo chuỗi ký tự một phần, không cần nhập chính xác toàn bộ.
+
+---
+
+## Quy Mô Dự Án
+
+| Hạng mục | Chi tiết |
+|---|---|
+| Số Use Case đặc tả | 57 UC qua 5 Giai đoạn phát triển |
+| Số bảng cơ sở dữ liệu | 55 bảng thiết kế chuẩn 3NF/ACID |
+| Số API Endpoints | 30+ endpoints (Public + Admin) |
+| Hợp đồng phát triển | 4 giai đoạn hợp đồng kinh tế (182+ man-days) |
+| Hạ tầng tài liệu | SRS, BA Specs, Test Plan, Security Framework, DevOps Runbook |
+
+---
+
+## Bảo Mật & Tuân Thủ Pháp Lý
+
+- **Xác thực:** JWT HS256 + Refresh Token Rotation + TOTP 2FA (Google Authenticator)
+- **Mã hóa:** BCrypt (mật khẩu người dùng), HMAC-SHA256 (xác thực Webhook thanh toán)
+- **Phân quyền:** RBAC (Role-Based Access Control) — Super Admin / Admin / Customer
+- **Pháp lý:** Tuân thủ **Thông tư 24/2023/TT-BCA** về biển số xe và **Nghị định 13/2023/NĐ-CP** về bảo vệ dữ liệu cá nhân
+- **Bảo mật web:** OWASP Security Framework, Security Headers Middleware, Rate Limiter
+
+---
+
+## Liên Hệ
 
 <p align="center">
-  <strong>DOANH NGHIỆP BIỂN SỐ ĐẸP DUY ĐINH</strong><br>
-  📍 <strong>Địa chỉ:</strong> Số 06 An Thượng 30, P. Mỹ An, Q. Ngũ Hành Sơn, TP. Đà Nẵng<br>
-  📞 <strong>Hotline / Zalo:</strong> <a href="tel:0815792699">0815 792 699</a><br>
-  ✉️ <strong>Email:</strong> <a href="mailto:duymc64@gmail.com">duymc64@gmail.com</a><br>
-  🌐 <strong>Website chính thức:</strong> <a href="https://biensovip.com">https://biensovip.com</a>
+  <strong>Doanh Nghiệp Biển Số Đẹp — Duy Đinh</strong><br/>
+  Số 06 An Thượng 30, P. Mỹ An, Q. Ngũ Hành Sơn, TP. Đà Nẵng<br/><br/>
+  <a href="tel:0815792699">0815 792 699</a> &nbsp;|&nbsp;
+  <a href="mailto:duymc64@gmail.com">duymc64@gmail.com</a> &nbsp;|&nbsp;
+  <a href="https://biensovip.com">biensovip.com</a>
 </p>
-
----
 
 <p align="center">
   <sub>© 2026 BienSoDep Organization. Bản quyền thuộc về Duy Đinh — Biển Số Đẹp Đà Nẵng.</sub>
+</p>
+
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=D97706,1E293B&height=100&section=footer" alt="footer" />
 </p>

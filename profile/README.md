@@ -30,7 +30,7 @@ Hệ thống được xây dựng hoàn toàn mới từ đầu qua **5 giai đo
 
 | Vấn đề thị trường | Giải pháp của Biensovip |
 |---|---|
-| Giá biển số thiếu cơ sở khoa học, phụ thuộc cảm tính người bán | **VPA Price Engine**: Tính giá gợi ý từ kết quả đấu giá thực tế theo thuật toán 3 tầng |
+| Giá biển số thiếu cơ sở khoa học, phụ thuộc cảm tính người bán | **VPA Price Engine**: Định giá thị trường khoa học dựa trên biển cùng tỉnh trùng đuôi số từ kết quả đấu giá VPA thực tế |
 | Không có kênh giao dịch chính thống, an toàn | **Cổng mua bán số hóa** với giữ chỗ tự động 15 phút, thanh toán VietQR/ZaloPay |
 | Khó tra cứu phong thủy, hợp tuổi hợp mệnh | **Trợ lý phong thủy ngũ hành** tích hợp trực tiếp trên từng biển số |
 | Admin quản lý kho biển thủ công, mất thời gian | **Admin Portal đầy đủ** với quản lý kho, duyệt giá VPA, CRM khách hàng |
@@ -85,18 +85,16 @@ Database được thiết kế chuẩn **3NF/ACID** với **55 bảng**, hỗ tr
 
 ### 1. VPA Market Price Engine (UC49)
 
-Đây là tính năng cốt lõi và độc đáo nhất của nền tảng. Hệ thống tự động **cào kết quả đấu giá biển số quốc gia** từ cổng VPA và áp dụng **thuật toán phân cấp 4 tầng** để suy luận giá thị trường khách quan:
+Đây là tính năng cốt lõi và độc đáo nhất của nền tảng. Hệ thống tự động **cào kết quả đấu giá biển số quốc gia** từ cổng VPA và áp dụng **thuật toán định giá chuẩn xác** dựa trên các biển số cùng tỉnh:
 
-| Tầng | Điều kiện | Độ tin cậy |
-|:---:|---|:---:|
-| **Tầng 1** | Trùng đuôi số thực tế + cùng tỉnh thành + cùng loại xe | Cao nhất |
-| **Tầng 2** | Cùng loại biển + cùng tỉnh thành theo phân khúc số | Cao |
-| **Tầng 3** | Cùng loại biển trên toàn quốc (fallback khi tỉnh thiếu dữ liệu) | Trung bình |
-| **Tầng 4** | Giá khởi điểm của chính biển số đó | Tham khảo |
+- **Nguyên tắc đối chiếu:** Chỉ sử dụng các biển số **trùng khớp chính xác dãy số đuôi** (khác chữ đầu series) nhưng **bắt buộc cùng tỉnh thành** và cùng loại phương tiện đã đấu giá thành công (`AuctionPrice > 0`). Ví dụ: với biển `64A-633.33` sẽ tìm kiếm các biển `64K-633.33`, `64H-633.33`... trong tỉnh Đồng Tháp.
+- **Trường hợp 1 (Có mẫu cùng tỉnh):**
+  $$\text{Giá gợi ý} = \text{Trung bình giá trúng các biển cùng tỉnh trùng đuôi} \times \text{Hệ số thị trường (Factor)}$$
+- **Trường hợp 2 (Không có mẫu cùng tỉnh trùng đuôi số):** Fallback trực tiếp bằng:
+  $$\text{Giá gợi ý} = \text{Giá khởi điểm (StartingPrice)} \times \text{Hệ số thị trường (Factor)}$$
+  *(Tuyệt đối không lấy mẫu khác số cùng loại biển tứ quý/ngũ quý ở tỉnh khác hay toàn quốc).*
 
-**Công thức:** `Giá gợi ý = Trung bình giá trúng × Hệ số thị trường (Factor)`
-
-Mỗi kết quả định giá đều kèm **50 phiên đấu giá mẫu** thực tế làm căn cứ minh bạch, cùng mô tả phương thức suy luận (`matchType`) và hệ số áp dụng (`factor`).
+Mỗi kết quả định giá đều kèm danh sách tối đa **50 phiên đấu giá mẫu cùng tỉnh** thực tế làm căn cứ minh bạch, cùng nhãn ghi chú rõ ràng (**"Cùng tỉnh"** hoặc **"Giá khởi điểm"**) trên bảng quản trị và modal chi tiết.
 
 ---
 
